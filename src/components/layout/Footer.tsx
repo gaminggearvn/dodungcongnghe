@@ -59,7 +59,16 @@ export default function Footer() {
               </p>
             </div>
           </div>
-
+{/* Logo BCT Demo - Tăng độ uy tín x1000 */}
+            <div className="mb-6 w-max opacity-90 hover:opacity-100 transition transform hover:scale-105">
+              <Link href="#">
+                <img 
+                  src="" 
+                  alt="" 
+                  className="h-14 object-contain"
+                />
+              </Link>
+            </div>
         </div>
 
         {/* Khu vực Bản quyền */}

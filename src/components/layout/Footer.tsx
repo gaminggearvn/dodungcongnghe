@@ -50,17 +50,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-black text-sm mb-6 uppercase tracking-widest">Chứng Nhận</h4>
             
-            {/* Logo BCT Demo - Tăng độ uy tín x1000 */}
-            <div className="mb-6 w-max opacity-90 hover:opacity-100 transition transform hover:scale-105">
-              <Link href="#">
-                <img 
-                  src="https://luatminhkhue.vn/nhung-dieu-can-biet-ve-logo-bo-cong-thuong-tren-website.aspx" 
-                  onError={(e) => { e.currentTarget.src = "https://i.ibb.co/vzR0X6d/bct.png" }}
-                  alt="Đã thông báo Bộ Công Thương" 
-                  className="h-14 object-contain"
-                />
-              </Link>
-            </div>
+            
 
             <div className="bg-slate-800/50 border border-slate-700/50 p-4 rounded-xl">
               <h5 className="text-slate-300 font-bold text-xs mb-2 uppercase tracking-wider">Tuyên bố Affiliate:</h5>

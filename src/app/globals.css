@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/* =========================================
+   1. HIỆU ỨNG & CHUYỂN ĐỘNG CƠ BẢN
+   ========================================= */
+/* Cuộn mượt mà khi bấm link */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Khử răng cưa cho chữ sắc nét như Macbook */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Hiệu ứng Fade-in khi tải trang */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+
+/* =========================================
+   2. TÙY BIẾN THANH CUỘN (SCROLLBAR) VIP
+   ========================================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6; /* Đổi sang màu xanh khi rê chuột vào */
+}
+
+/* Ẩn thanh cuộn cho Sidebar Mobile để nhìn mượt như App */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
+/* =========================================
+   3. NỀN WEB "BAY BỔNG" (BÁU TRẮNG LUN 😎)
+   ========================================= */
+
+/* Nền tổng của trang web (Sáng) - Đã báu trắng Lun như sếp yêu cầu */
+body {
+  /* Gradient siêu nhạt từ trắng sang xanh ngọc pale */
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%) !important;
+  /* Giữ nền đứng im khi cuộn chuột tạo chiều sâu */
+  background-attachment: fixed !important; 
+  color: #0f172a; /* Chữ tối màu dễ đọc */
+}
+
+/* Nền tổng của trang web (Nếu sếp dùng Dark Mode sau này) */
+.dark body {
+  background: linear-gradient(180deg, #0f172a 0%, #020617 100%) !important;
+  background-attachment: fixed !important;
+}
+
+
+/* =========================================
+   4. SIÊU PHẨM: LED VIỀN RGB CHẠY VÒNG QUANH (NEW 🔥)
+   ========================================= */
+
+/* Hiệu ứng chạy gradient để giả lập LED chạy */
+@keyframes ledBorderRun {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+
+/* Lớp vỏ tương đối để chứa viền sau lưng */
+.led-running-border {
+  position: relative;
+  z-index: 1; /* Content nổi lên trên */
+}
+
+/* Cái viền RGB chạy ngầm sau lưng */
+.led-running-border::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px; /* Độ dày của viền chạy */
+  border-radius: inherit; /* Bo tròn theo cha */
+  background: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #ff7300 12.5%,
+    #fffb00 25%,
+    #48ff00 37.5%,
+    #00ffd5 50%,
+    #002bff 62.5%,
+    #7a00ff 75%,
+    #ff00c8 87.5%,
+    #ff0000 100%
+  );
+  background-size: 200% 200%; /* Làm dài gradient để chạy mượt */
+  animation: ledBorderRun 5s linear infinite; /* 5 giây 1 vòng */
+  z-index: -1; /* Nằm dưới content */
+  filter: blur(1.5px); /* Làm mờ nhẹ để tạo hiệu ứng "bay bổng" của ánh sáng */
+  opacity: 0.7; /* Làm mờ viền để không bị gắt */
+}

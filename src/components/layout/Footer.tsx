@@ -10,67 +10,75 @@ export default function Footer() {
           
           {/* Cột 1: Thông tin công ty */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-black text-white tracking-wider mb-2">LC<span className="text-blue-500">KEYBOARD</span></h3>
-            <p className="text-sm leading-relaxed text-slate-400">
-               trang review, đánh giá độc lập các sản phẩm Bàn phím cơ, Chuột Gaming và phụ kiện công nghệ. Giúp bạn chốt deal với giá hời nhất!
+            <h3 className="text-3xl font-black text-white tracking-wider mb-2">
+              LC<span className="text-blue-500">KEYBOARD</span>
+            </h3>
+            <p className="text-sm leading-relaxed text-slate-400 font-medium">
+               Trang review, đánh giá độc lập các sản phẩm Bàn phím cơ, Chuột Gaming và phụ kiện công nghệ. Giúp bạn chốt deal với giá hời nhất!
             </p>
-            <div className="text-sm space-y-2 pt-2 text-slate-400">
-              <p>🏢 <strong className="text-slate-300">Địa chỉ:</strong> Số 123 Long Thạnh, Vĩnh Lợi,Xã Hòa Bình, Cà Mau</p>
-              <p>📞 <strong className="text-slate-300">Hotline:</strong> 0876175960</p>
-              <p>📧 <strong className="text-slate-300">Email:</strong> chauthaitoan15032000@gmail.com</p>
-              <p>🧾 <strong className="text-slate-300">Mã số thuế:</strong> 0123456789</p>
+            <div className="text-sm space-y-3 pt-4 text-slate-400 border-t border-slate-800">
+              <p className="flex items-start gap-2"><span className="shrink-0">🏢</span> <span><strong className="text-slate-200">Địa chỉ:</strong> Số 123 Long Thạnh, Vĩnh Lợi, Xã Hòa Bình, Cà Mau</span></p>
+              <p className="flex items-center gap-2"><span className="shrink-0">📞</span> <span><strong className="text-slate-200">Hotline:</strong> 0876175960</span></p>
+              <p className="flex items-center gap-2"><span className="shrink-0">📧</span> <span><strong className="text-slate-200">Email:</strong> chauthaitoan15032000@gmail.com</span></p>
+              <p className="flex items-center gap-2"><span className="shrink-0">🧾</span> <span><strong className="text-slate-200">Mã số thuế:</strong> Đang cập nhật</span></p>
             </div>
           </div>
 
-          {/* Cột 2: Chính sách pháp lý (Rất quan trọng) */}
+          {/* Cột 2: Chính sách pháp lý */}
           <div>
-            <h4 className="text-white font-bold text-lg mb-5 uppercase tracking-wider">Chính Sách & Pháp Lý</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">📄 Điều khoản sử dụng</Link></li>
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">🔒 Chính sách bảo mật (Privacy Policy)</Link></li>
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">⚖️ Khiếu nại bản quyền (DMCA)</Link></li>
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">🛡️ Từ chối trách nhiệm (Disclaimer)</Link></li>
+            <h4 className="text-white font-black text-sm mb-6 uppercase tracking-widest">Chính Sách & Pháp Lý</h4>
+            <ul className="space-y-4 text-sm font-medium">
+              <li><Link href="/dieu-khoan-su-dung" className="hover:text-blue-400 transition-colors flex items-center gap-2">📄 Điều khoản sử dụng</Link></li>
+              <li><Link href="/chinh-sach-bao-mat" className="hover:text-blue-400 transition-colors flex items-center gap-2">🔒 Chính sách bảo mật</Link></li>
+              <li><Link href="/khieu-nai-ban-quyen" className="hover:text-blue-400 transition-colors flex items-center gap-2">⚖️ Khiếu nại bản quyền (DMCA)</Link></li>
+              <li><Link href="/tu-choi-trach-nhiem" className="hover:text-blue-400 transition-colors flex items-center gap-2">🛡️ Từ chối trách nhiệm</Link></li>
             </ul>
           </div>
 
           {/* Cột 3: Về chúng tôi */}
           <div>
-            <h4 className="text-white font-bold text-lg mb-5 uppercase tracking-wider">Về LC Keyboard</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">Giới thiệu</Link></li>
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">Liên hệ hợp tác</Link></li>
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">Quy trình đánh giá sản phẩm</Link></li>
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">Cộng đồng Discord/Group</Link></li>
+            <h4 className="text-white font-black text-sm mb-6 uppercase tracking-widest">Về LC Keyboard</h4>
+            <ul className="space-y-4 text-sm font-medium">
+              <li><Link href="/gioi-thieu" className="hover:text-blue-400 transition-colors flex items-center gap-2">🏢 Giới thiệu về chúng tôi</Link></li>
+              <li><Link href="/lien-he" className="hover:text-blue-400 transition-colors flex items-center gap-2">🤝 Liên hệ hợp tác</Link></li>
+              <li><Link href="/quy-trinh-danh-gia" className="hover:text-blue-400 transition-colors flex items-center gap-2">🎯 Quy trình đánh giá</Link></li>
+              <li><a href="https://zalo.me/g/nwbaao575" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors flex items-center gap-2">💬 Cộng đồng Zalo/Group</a></li>
             </ul>
           </div>
 
           {/* Cột 4: Chứng nhận & Tuyên bố Affiliate */}
           <div>
-            <h4 className="text-white font-bold text-lg mb-5 uppercase tracking-wider">Chứng Nhận</h4>
+            <h4 className="text-white font-black text-sm mb-6 uppercase tracking-widest">Chứng Nhận</h4>
             
-            {/* Chỗ để gắn ảnh logo Đã thông báo Bộ Công Thương sau này */}
-            <div className="bg-slate-800 border border-slate-700 p-3 rounded-lg flex items-center justify-center mb-6 w-max opacity-80 hover:opacity-100 transition">
-              <span className="text-xs font-bold text-red-400"></span>
-              {/* Sau này anh em thay thẻ span trên bằng thẻ <img src="link_anh_BCT" /> là xong */}
+            {/* Logo BCT Demo - Tăng độ uy tín x1000 */}
+            <div className="mb-6 w-max opacity-90 hover:opacity-100 transition transform hover:scale-105">
+              <Link href="#">
+                <img 
+                  src="https://luatminhkhue.vn/nhung-dieu-can-biet-ve-logo-bo-cong-thuong-tren-website.aspx" 
+                  onError={(e) => { e.currentTarget.src = "https://i.ibb.co/vzR0X6d/bct.png" }}
+                  alt="Đã thông báo Bộ Công Thương" 
+                  className="h-14 object-contain"
+                />
+              </Link>
             </div>
 
-            <div className="bg-blue-900/30 border border-blue-800 p-4 rounded-xl">
-              <h5 className="text-blue-400 font-bold text-sm mb-2">Tuyên bố Affiliate (Affiliate Disclosure):</h5>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                LC Keyboard có thể nhận được hoa hồng khi bạn click vào các liên kết mua hàng trên website này. Tuy nhiên, điều này <strong>không làm tăng giá</strong> sản phẩm bạn mua và không ảnh hưởng đến tính khách quan trong các bài review của chúng tôi.
+            <div className="bg-slate-800/50 border border-slate-700/50 p-4 rounded-xl">
+              <h5 className="text-slate-300 font-bold text-xs mb-2 uppercase tracking-wider">Tuyên bố Affiliate:</h5>
+              <p className="text-[13px] text-slate-400 leading-relaxed">
+                LC Keyboard có thể nhận được hoa hồng khi bạn click vào các liên kết mua hàng. Tuy nhiên, điều này <strong className="text-blue-400">không làm tăng giá</strong> sản phẩm và không ảnh hưởng đến tính khách quan trong đánh giá.
               </p>
             </div>
           </div>
 
         </div>
 
-        {/* Khu vực Bản quyền cuối cùng */}
-        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        {/* Khu vực Bản quyền */}
+        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
           <p>© {new Date().getFullYear()} LCKEYBOARD. All rights reserved.</p>
-          <div className="flex gap-4">
-            <Link href="#" className="hover:text-white transition">Facebook</Link>
-            <Link href="#" className="hover:text-white transition">TikTok</Link>
-            <Link href="#" className="hover:text-white transition">YouTube</Link>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-white transition-colors">Facebook</a>
+            <a href="#" className="hover:text-white transition-colors">TikTok</a>
+            <a href="#" className="hover:text-white transition-colors">YouTube</a>
           </div>
         </div>
       </div>

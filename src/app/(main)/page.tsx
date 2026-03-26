@@ -100,7 +100,7 @@ export default async function HomePage() {
                   <div className="flex items-center justify-between mb-8 px-2">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-2xl md:rounded-[1.5rem] shadow-sm border border-slate-100 flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform group-hover:rotate-6">
-                        {thuMuc.icon || '⌨️'}
+                        {thuMuc.icon || ''}
                       </div>
                       <div>
                         <h2 className="text-xl md:text-4xl font-black text-slate-800 tracking-tighter uppercase italic leading-none">

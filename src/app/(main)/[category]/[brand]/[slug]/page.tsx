@@ -138,7 +138,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 flex items-center justify-center bg-slate-100 rounded-xl group-hover:bg-slate-900 transition-colors p-1 shrink-0 overflow-hidden">
-                      <img src="https://thuvienvector.vn/logo-tiktok-vector/" alt="TikTok Logo" className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
+                      <img src="https://vn.freepik.com/vector/logo-tik-tok-png" alt="TikTok Logo" className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
                     </div>
                     <span className="font-black text-slate-700 uppercase text-sm">TikTok Shop</span>
                   </div>

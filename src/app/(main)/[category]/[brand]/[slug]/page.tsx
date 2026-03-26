@@ -119,7 +119,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 flex items-center justify-center bg-orange-50 rounded-xl group-hover:bg-orange-500 transition-colors p-1 shrink-0 overflow-hidden">
-                      <img src="https://i.ibb.co/X7P4W8L/Shopee-logo-2022.png" alt="Shopee Logo" className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
+                      <img src="https://static.vecteezy.com/system/resources/previews/053/407/516/non_2x/shopee-logo-shopee-icon-transparent-social-media-icons-free-png.png" alt="Shopee Logo" className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
                     </div>
                     <span className="font-black text-slate-700 uppercase text-sm">Shopee Mall</span>
                   </div>
@@ -138,7 +138,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 flex items-center justify-center bg-slate-100 rounded-xl group-hover:bg-slate-900 transition-colors p-1 shrink-0 overflow-hidden">
-                      <img src="https://i.ibb.co/3WqP4bH/Tik-Tok-Shop-Icon-black.png" alt="TikTok Logo" className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
+                      <img src="https://thuvienvector.vn/logo-tiktok-vector/" alt="TikTok Logo" className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
                     </div>
                     <span className="font-black text-slate-700 uppercase text-sm">TikTok Shop</span>
                   </div>

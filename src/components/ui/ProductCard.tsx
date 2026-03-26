@@ -23,23 +23,26 @@ export default function ProductCard({ sanPham }: { sanPham: any }) {
   const giaHienTai = sanPham.gia || "Đang cập nhật";
   const giaGoc = sanPham.gia ? (parseInt(sanPham.gia.replace(/\D/g, '')) * 1.3).toLocaleString() + 'đ' : '';
 
+  const productUrl = `/${sanPham.category_slug}/${sanPham.brand_slug}/${sanPham.slug}`;
+
   return (
-    <div className="led-running-border bg-slate-800 rounded-2xl border border-slate-700 shadow-lg hover:shadow-2xl transition-all group overflow-hidden flex flex-col h-full relative z-10">
-      
+    <Link 
+      href={productUrl} 
+      prefetch={true} 
+      className="block led-running-border bg-slate-800 rounded-2xl border border-slate-700 shadow-lg hover:shadow-2xl transition-all group overflow-hidden flex flex-col h-full relative z-10 hover:-translate-y-1 duration-300 cursor-pointer"
+    >
       <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-rose-500 text-white text-[9px] md:text-[10px] font-black px-2 py-0.5 rounded-full z-10 shadow-lg shadow-red-500/30">
         🔥 HOT
       </div>
 
-      <Link href={`/${sanPham.category_slug}/${sanPham.brand_slug}/${sanPham.slug}`} className="block relative pt-2 px-2 bg-slate-800 aspect-square flex items-center justify-center rounded-t-2xl overflow-hidden">
+      <div className="relative pt-2 px-2 bg-slate-800 aspect-square flex items-center justify-center rounded-t-2xl overflow-hidden">
         <img src={sanPham.hinh_anh} alt={sanPham.ten} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-md rounded-xl bg-slate-700/30 p-1" />
-      </Link>
+      </div>
 
       <div className="p-2.5 md:p-3 flex flex-col flex-1 bg-slate-800 relative z-10 rounded-b-2xl">
-        <Link href={`/${sanPham.category_slug}/${sanPham.brand_slug}/${sanPham.slug}`}>
-          <h3 className="font-black text-[11px] md:text-xs text-white line-clamp-2 leading-tight hover:text-blue-400 transition-colors h-6 md:h-8">
-            {sanPham.ten}
-          </h3>
-        </Link>
+        <h3 className="font-black text-[11px] md:text-xs text-white line-clamp-2 leading-tight group-hover:text-blue-400 transition-colors h-6 md:h-8">
+          {sanPham.ten}
+        </h3>
         
         <div className="flex items-center gap-1 mt-1 mb-1.5 text-[9px] md:text-[11px]">
           <div className="text-yellow-400">{"★".repeat(Math.floor(sanPham.diem || 5))}</div>
@@ -67,11 +70,11 @@ export default function ProductCard({ sanPham }: { sanPham: any }) {
              {giaGoc && <span className="text-slate-400 text-[9px] line-through font-bold">{giaGoc}</span>}
           </div>
 
-          <Link href={`/${sanPham.category_slug}/${sanPham.brand_slug}/${sanPham.slug}`} className="block w-full text-center bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white font-black py-2 md:py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-all hover:shadow-lg hover:shadow-orange-500/30 active:scale-95">
+          <div className="block w-full text-center bg-gradient-to-r from-orange-500 to-rose-500 group-hover:from-orange-600 group-hover:to-rose-600 text-white font-black py-2 md:py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-all group-hover:shadow-lg group-hover:shadow-orange-500/30">
             🛒 Tới nơi bán
-          </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

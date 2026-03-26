@@ -39,7 +39,7 @@ body {
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6; /* Đổi sang màu xanh khi rê chuột vào */
+  background: #d60f0f; /* Đổi sang màu xanh khi rê chuột vào */
 }
 
 /* Ẩn thanh cuộn cho Sidebar Mobile để nhìn mượt như App */

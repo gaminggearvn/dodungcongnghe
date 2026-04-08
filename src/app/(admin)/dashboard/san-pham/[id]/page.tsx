@@ -8,33 +8,6 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-// 🔴 BẢNG PHONG THẦN: Gom danh mục và hãng lên đây để sau này sếp muốn thêm/sửa chỉ cần gõ vào đây là xong, không cần mò mẫm trong code nữa!
-const DANH_MUC_CHUAN = [
-  { slug: 'ban-phim-co', ten: 'Bàn Phím Cơ / Máy Tính' },
-  { slug: 'chuot-gaming', ten: 'Chuột Gaming' },
-  { slug: 'tai-nghe', ten: 'Tai Nghe Gaming' },
-  { slug: 'phu-kien', ten: 'Phụ Kiện & Linh Kiện' },
-  { slug: 'thiet-bi-dien-gia-dung', ten: 'Thiết Bị Điện Gia Dụng' },
-  { slug: 'dien-thoai', ten: 'Điện Thoại' },
-];
-
-const HANG_SX_CHUAN = [
-  { slug: 'atas', ten: 'ATAS' },
-  { slug: 'aula', ten: 'AULA' },
-  { slug: 'ajazz', ten: 'AJAZZ' },
-  { slug: 'mchose', ten: 'MCHOSE' },
-  { slug: 'xinmeng', ten: 'XINMENG' },
-  { slug: 'ziyou', ten: 'ZIYOU' },
-  { slug: 'monka', ten: 'MONKA' },
-  { slug: 'weikav', ten: 'WEIKAV' },
-  { slug: 'leaven', ten: 'LEAVEN' },
-  { slug: 'attack-shark', ten: 'Attack Shark' },
-  { slug: 'rk', ten: 'Royal Kludge (RK)' },
-  { slug: 'lang-tu', ten: 'Lang Tu' },
-  { slug: 'raiku', ten: 'RaiKu' },
-  { slug: 'oem', ten: 'Hãng Khác (OEM)' },
-];
-
 export default function EditProductPage() {
   const params = useParams();
   const router = useRouter();
@@ -43,43 +16,64 @@ export default function EditProductPage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   
+  // 🟢 THÊM 2 CÁI KHO ĐỂ CHỨA DỮ LIỆU ĐỘNG TỪ SUPABASE
+  const [danhMucList, setDanhMucList] = useState<any[]>([]);
+  const [hangSxList, setHangSxList] = useState<any[]>([]);
+  
   const [formData, setFormData] = useState({
     ten: '', gia: '', diem: '5.0', ts_1: '', ts_2: '', ts_3: '', 
     hinh_anh: '', link_driver: '', noi_dung: '', danh_muc: '', 
     hang_sx: '', uu_diem: '', link_shopee: '', link_tiktok: ''
   });
 
-  // 1. TỰ ĐỘNG HÚT DỮ LIỆU CŨ LÊN FORM
+  // 1. TỰ ĐỘNG HÚT DỮ LIỆU CŨ VÀ DANH SÁCH TỪ KHO
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchData = async () => {
       if (!id) return;
-      const { data, error } = await supabase.from('san_pham').select('*').eq('id', id).single();
-      
-      if (data && !error) {
-        setFormData({
-          ten: data.ten || '',
-          gia: data.gia || '',
-          diem: data.diem?.toString() || '5.0',
-          ts_1: data.ts_noi_bat_1 || '',
-          ts_2: data.ts_noi_bat_2 || '',
-          ts_3: data.ts_noi_bat_3 || '',
-          hinh_anh: data.hinh_anh || '', 
-          link_driver: data.link_driver || '',
-          noi_dung: data.noi_dung || '',
-          danh_muc: data.category_slug || '', 
-          hang_sx: data.brand_slug || '',     
-          uu_diem: data.uu_diem || '',
-          link_shopee: data.link_shopee || '',
-          link_tiktok: data.link_tiktok || ''
-        });
-      } else {
-        alert("Không tìm thấy món này sếp ơi!");
-        router.push('/dashboard/san-pham'); 
+
+      try {
+        // 🔴 BƯỚC A: HÚT DANH SÁCH "DANH MỤC" TỪ SUPABASE
+        // Lưu ý: Nếu bảng danh mục của sếp tên khác, sếp đổi chữ 'danh_muc' nhé
+        const { data: dmData } = await supabase.from('danh_muc').select('slug, ten');
+        if (dmData) setDanhMucList(dmData);
+
+        // 🔴 BƯỚC B: HÚT DANH SÁCH "HÃNG" TỪ SUPABASE
+        // Lưu ý: Nếu bảng hãng của sếp tên khác (vd: thuong_hieu, hang...), sếp đổi chữ 'hang' nhé
+        const { data: hangData } = await supabase.from('hang').select('slug, ten');
+        if (hangData) setHangSxList(hangData);
+
+        // 🔴 BƯỚC C: HÚT THÔNG TIN SẢN PHẨM NHƯ CŨ
+        const { data, error } = await supabase.from('san_pham').select('*').eq('id', id).single();
+        
+        if (data && !error) {
+          setFormData({
+            ten: data.ten || '',
+            gia: data.gia || '',
+            diem: data.diem?.toString() || '5.0',
+            ts_1: data.ts_noi_bat_1 || '',
+            ts_2: data.ts_noi_bat_2 || '',
+            ts_3: data.ts_noi_bat_3 || '',
+            hinh_anh: data.hinh_anh || '', 
+            link_driver: data.link_driver || '',
+            noi_dung: data.noi_dung || '',
+            danh_muc: data.category_slug || '', 
+            hang_sx: data.brand_slug || '',     
+            uu_diem: data.uu_diem || '',
+            link_shopee: data.link_shopee || '',
+            link_tiktok: data.link_tiktok || ''
+          });
+        } else {
+          alert("Không tìm thấy món này sếp ơi!");
+          router.push('/dashboard/san-pham'); 
+        }
+      } catch (error) {
+        console.error("Lỗi lấy dữ liệu:", error);
+      } finally {
+        setFetching(false);
       }
-      setFetching(false);
     };
 
-    fetchProduct();
+    fetchData();
   }, [id, router]);
 
   const handleChange = (e: any) => {
@@ -209,23 +203,23 @@ export default function EditProductPage() {
             <h3 className="font-black text-white uppercase text-sm mb-6">Cài đặt xuất bản</h3>
             
             <div className="space-y-4 mb-8">
-              {/* 🟢 DANH MỤC ĐÃ ĐƯỢC TỰ ĐỘNG HÓA */}
+              {/* 🟢 HIỂN THỊ DANH MỤC LẤY TỪ DATA */}
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase">Danh mục</label>
                 <select name="danh_muc" value={formData.danh_muc} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn danh mục --</option>
-                  {DANH_MUC_CHUAN.map((dm) => (
+                  {danhMucList.map((dm) => (
                     <option key={dm.slug} value={dm.slug}>{dm.ten}</option>
                   ))}
                 </select>
               </div>
 
-              {/* 🟢 HÃNG SẢN XUẤT ĐÃ ĐƯỢC TỰ ĐỘNG HÓA */}
+              {/* 🟢 HIỂN THỊ HÃNG LẤY TỪ DATA */}
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase">Hãng sản xuất</label>
                 <select name="hang_sx" value={formData.hang_sx} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn hãng --</option>
-                  {HANG_SX_CHUAN.map((hang) => (
+                  {hangSxList.map((hang) => (
                     <option key={hang.slug} value={hang.slug}>{hang.ten}</option>
                   ))}
                 </select>

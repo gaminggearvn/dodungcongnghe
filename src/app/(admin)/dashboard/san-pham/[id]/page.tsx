@@ -18,12 +18,14 @@ export default function EditProductPage() {
   
   // KHO CHỨA DỮ LIỆU ĐỘNG TỪ SUPABASE
   const [danhMucList, setDanhMucList] = useState<any[]>([]);
-  const [hangSxList, setHangSxList] = useState<any[]>([]);
+  const [hangList, setHangList] = useState<any[]>([]); // Đổi tên biến cho giống file Đăng Mới
   
+  // ĐỒNG BỘ CHUẨN TÊN BIẾN VỚI FILE ĐĂNG MỚI (Dùng hang_san_xuat)
   const [formData, setFormData] = useState({
     ten: '', gia: '', diem: '5.0', ts_1: '', ts_2: '', ts_3: '', 
     hinh_anh: '', link_driver: '', noi_dung: '', danh_muc: '', 
-    hang_sx: '', uu_diem: '', link_shopee: '', link_tiktok: ''
+    hang_san_xuat: '', // <-- Sửa lại thành hang_san_xuat
+    uu_diem: '', link_shopee: '', link_tiktok: ''
   });
 
   // 1. TỰ ĐỘNG HÚT DỮ LIỆU CŨ VÀ DANH SÁCH TỪ KHO
@@ -32,13 +34,13 @@ export default function EditProductPage() {
       if (!id) return;
 
       try {
-        // 🔴 LẤY DANH MỤC (Dùng select * để vét sạch, không sợ sai tên cột)
+        // 🔴 LẤY DANH MỤC TỪ BẢNG 'danh_muc'
         const { data: dmData } = await supabase.from('danh_muc').select('*');
         if (dmData) setDanhMucList(dmData);
 
-        // 🔴 LẤY HÃNG SẢN XUẤT (Lấy từ bảng 'hang' như ảnh sếp chụp)
-        const { data: hangData } = await supabase.from('hang').select('*');
-        if (hangData) setHangSxList(hangData);
+        // 🔴 LẤY HÃNG TỪ BẢNG 'hang_san_xuat' (Khớp 100% với file Đăng mới)
+        const { data: hangData } = await supabase.from('hang_san_xuat').select('*');
+        if (hangData) setHangList(hangData);
 
         // 🔴 LẤY THÔNG TIN SẢN PHẨM HIỆN TẠI
         const { data, error } = await supabase.from('san_pham').select('*').eq('id', id).single();
@@ -55,7 +57,7 @@ export default function EditProductPage() {
             link_driver: data.link_driver || '',
             noi_dung: data.noi_dung || '',
             danh_muc: data.category_slug || '', 
-            hang_sx: data.brand_slug || '',     
+            hang_san_xuat: data.brand_slug || '', // <-- Map đúng data cũ vào biến này
             uu_diem: data.uu_diem || '',
             link_shopee: data.link_shopee || '',
             link_tiktok: data.link_tiktok || ''
@@ -85,7 +87,6 @@ export default function EditProductPage() {
     setLoading(true);
 
     try {
-      // Tự động tạo slug từ tên sản phẩm
       const slug = formData.ten.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
 
       const { error } = await supabase.from('san_pham').update({
@@ -99,7 +100,7 @@ export default function EditProductPage() {
         hinh_anh: formData.hinh_anh,
         link_driver: formData.link_driver,
         noi_dung: formData.noi_dung,
-        brand_slug: formData.hang_sx,
+        brand_slug: formData.hang_san_xuat, // <-- Đẩy đúng biến này lên DB
         category_slug: formData.danh_muc,
         uu_diem: formData.uu_diem,
         link_shopee: formData.link_shopee,
@@ -208,9 +209,8 @@ export default function EditProductPage() {
                 <select name="danh_muc" value={formData.danh_muc} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn danh mục --</option>
                   {danhMucList.map((dm) => (
-                    // Tự động nhận diện ten_danh_muc hoặc ten
                     <option key={dm.id || dm.slug} value={dm.slug}>
-                      {dm.ten_danh_muc || dm.ten || dm.slug}
+                      {dm.ten || dm.name || dm.ten_danh_muc || dm.title || dm.slug}
                     </option>
                   ))}
                 </select>
@@ -219,11 +219,12 @@ export default function EditProductPage() {
               {/* 🟢 HÃNG SẢN XUẤT */}
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase">Hãng sản xuất</label>
-                <select name="hang_sx" value={formData.hang_sx} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
+                <select name="hang_san_xuat" value={formData.hang_san_xuat} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn hãng --</option>
-                  {hangSxList.map((hang) => (
-                    <option key={hang.id || hang.slug} value={hang.slug}>
-                      {hang.ten_hang || hang.ten || hang.slug}
+                  {hangList.map((h) => (
+                    // Lấy chuẩn cột ten_hang y hệt file Đăng Mới
+                    <option key={h.id || h.slug} value={h.slug}>
+                      {h.ten_hang || h.ten || h.slug}
                     </option>
                   ))}
                 </select>

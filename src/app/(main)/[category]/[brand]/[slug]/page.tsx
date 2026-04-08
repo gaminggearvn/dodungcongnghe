@@ -6,6 +6,9 @@ import ProductGallery from "@/components/ui/ProductGallery";
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 
+// TIÊM THUỐC PHÁ CACHE NEXT.JS (Cập nhật Real-time khi kho có đồ mới)
+export const revalidate = 0;
+
 // 1. COMPONENT: Huy hiệu tin cậy
 function TrustBadges() {
   return (
@@ -56,12 +59,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   if (!sanPham) return notFound();
 
   const { data: productImages } = await supabase.from('san_pham_hinh_anh').select('*').eq('san_pham_id', sanPham.id).order('order_index', { ascending: true });
-  const { data: dsLienQuan } = await supabase.from('san_pham').select('*').eq('category_slug', sanPham.category_slug).neq('id', sanPham.id).limit(5);
+  
+  // FIX CHÍNH LÀ Ở ĐÂY: XÓA ".limit(5)" -> Để lấy 100% tất cả sản phẩm vào Popup So Sánh
+  const { data: dsLienQuan } = await supabase.from('san_pham').select('*').eq('category_slug', sanPham.category_slug).neq('id', sanPham.id);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 md:py-10 min-h-screen relative z-0">
       
-      {/* 🔴 ĐÃ FIX BREADCRUMB CHUẨN VIP: KHÔNG CÒN BỊ LỖI LINK TRẮNG */}
+      {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-6 overflow-hidden whitespace-nowrap relative z-10">
         <Link href="/" className="hover:text-blue-600 transition-colors">TRANG CHỦ</Link>
         <span>/</span>
@@ -242,7 +247,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         
         {dsLienQuan && dsLienQuan.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 relative z-10">
-            {dsLienQuan.map((sp: any) => (<ProductCard key={sp.id} sanPham={sp} />))}
+            {/* ĐỂ GIỮ GIAO DIỆN ĐẸP: Vẫn chỉ hiển thị 5 sản phẩm đầu tiên ở phần "CÓ THỂ ANH EM THÍCH" */}
+            {dsLienQuan.slice(0, 5).map((sp: any) => (<ProductCard key={sp.id} sanPham={sp} />))}
           </div>
         ) : (
           <div className="bg-slate-50 p-20 rounded-[3rem] border-2 border-dashed border-slate-200 text-center text-slate-400 font-black uppercase tracking-widest relative z-10">

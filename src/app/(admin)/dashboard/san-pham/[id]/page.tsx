@@ -8,6 +8,33 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+// 🔴 BẢNG PHONG THẦN: Gom danh mục và hãng lên đây để sau này sếp muốn thêm/sửa chỉ cần gõ vào đây là xong, không cần mò mẫm trong code nữa!
+const DANH_MUC_CHUAN = [
+  { slug: 'ban-phim-co', ten: 'Bàn Phím Cơ / Máy Tính' },
+  { slug: 'chuot-gaming', ten: 'Chuột Gaming' },
+  { slug: 'tai-nghe', ten: 'Tai Nghe Gaming' },
+  { slug: 'phu-kien', ten: 'Phụ Kiện & Linh Kiện' },
+  { slug: 'thiet-bi-dien-gia-dung', ten: 'Thiết Bị Điện Gia Dụng' },
+  { slug: 'dien-thoai', ten: 'Điện Thoại' },
+];
+
+const HANG_SX_CHUAN = [
+  { slug: 'atas', ten: 'ATAS' },
+  { slug: 'aula', ten: 'AULA' },
+  { slug: 'ajazz', ten: 'AJAZZ' },
+  { slug: 'mchose', ten: 'MCHOSE' },
+  { slug: 'xinmeng', ten: 'XINMENG' },
+  { slug: 'ziyou', ten: 'ZIYOU' },
+  { slug: 'monka', ten: 'MONKA' },
+  { slug: 'weikav', ten: 'WEIKAV' },
+  { slug: 'leaven', ten: 'LEAVEN' },
+  { slug: 'attack-shark', ten: 'Attack Shark' },
+  { slug: 'rk', ten: 'Royal Kludge (RK)' },
+  { slug: 'lang-tu', ten: 'Lang Tu' },
+  { slug: 'raiku', ten: 'RaiKu' },
+  { slug: 'oem', ten: 'Hãng Khác (OEM)' },
+];
+
 export default function EditProductPage() {
   const params = useParams();
   const router = useRouter();
@@ -158,11 +185,11 @@ export default function EditProductPage() {
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase">Link Ảnh Chính (Mỗi dòng 1 ảnh)</label>
-                  <textarea name="hinh_anh" value={formData.hinh_anh} onChange={handleChange} rows={4} className="w-full p-4 mt-1 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:outline-none text-sm font-medium whitespace-nowrap overflow-x-auto" />
+                  <label className="text-[10px] font-black text-slate-400 uppercase">Link Ảnh Chính</label>
+                  <input name="hinh_anh" value={formData.hinh_anh} onChange={handleChange} className="w-full p-4 mt-1 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:outline-none text-sm font-medium" />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase">Link Driver / App (Nếu có)</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase">Link Driver / App</label>
                   <input name="link_driver" value={formData.link_driver} onChange={handleChange} className="w-full p-4 mt-1 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:outline-none text-sm font-medium" />
                 </div>
               </div>
@@ -182,29 +209,25 @@ export default function EditProductPage() {
             <h3 className="font-black text-white uppercase text-sm mb-6">Cài đặt xuất bản</h3>
             
             <div className="space-y-4 mb-8">
-              {/* ĐÃ CHUYỂN VỀ SELECT (DROP-DOWN) CHO DANH MỤC */}
+              {/* 🟢 DANH MỤC ĐÃ ĐƯỢC TỰ ĐỘNG HÓA */}
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase">Danh mục</label>
-                <select name="danh_muc" value={formData.danh_muc} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold">
+                <select name="danh_muc" value={formData.danh_muc} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn danh mục --</option>
-                  <option value="ban-phim-may-tinh">Bàn Phím Máy Tính</option>
-                  <option value="chuot-may-tinh">Chuột Máy Tính</option>
-                  <option value="tai-nghe">Tai Nghe Gaming</option>
-                  <option value="san-pham-shopee">Sản phẩm Shopee (Cào tự động)</option>
+                  {DANH_MUC_CHUAN.map((dm) => (
+                    <option key={dm.slug} value={dm.slug}>{dm.ten}</option>
+                  ))}
                 </select>
               </div>
 
-              {/* ĐÃ CHUYỂN VỀ SELECT (DROP-DOWN) CHO HÃNG SẢN XUẤT */}
+              {/* 🟢 HÃNG SẢN XUẤT ĐÃ ĐƯỢC TỰ ĐỘNG HÓA */}
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase">Hãng sản xuất</label>
-                <select name="hang_sx" value={formData.hang_sx} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold">
+                <select name="hang_sx" value={formData.hang_sx} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn hãng --</option>
-                  <option value="aula">Aula</option>
-                  <option value="logitech">Logitech</option>
-                  <option value="razer">Razer</option>
-                  <option value="corsair">Corsair</option>
-                  <option value="xinmeng">Xinmeng</option>
-                  <option value="shopee-mall">Shopee Mall</option>
+                  {HANG_SX_CHUAN.map((hang) => (
+                    <option key={hang.slug} value={hang.slug}>{hang.ten}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -216,7 +239,7 @@ export default function EditProductPage() {
 
           <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
             <h3 className="font-black text-slate-800 uppercase text-sm mb-4">✅ Ưu điểm nổi bật</h3>
-            <textarea name="uu_diem" value={formData.uu_diem} onChange={handleChange} rows={5} className="w-full p-4 rounded-xl bg-green-50/50 border border-green-200 focus:border-green-500 focus:outline-none text-sm font-medium text-green-900" />
+            <textarea name="uu_diem" value={formData.uu_diem} onChange={handleChange} placeholder="Gõ xong 1 ý thì bấm Enter xuống dòng nha sếp..." rows={5} className="w-full p-4 rounded-xl bg-green-50/50 border border-green-200 focus:border-green-500 focus:outline-none text-sm font-medium text-green-900" />
           </div>
 
           <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">

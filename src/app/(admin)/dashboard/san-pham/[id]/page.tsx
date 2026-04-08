@@ -16,7 +16,7 @@ export default function EditProductPage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   
-  // 🟢 THÊM 2 CÁI KHO ĐỂ CHỨA DỮ LIỆU ĐỘNG TỪ SUPABASE
+  // KHO CHỨA DỮ LIỆU ĐỘNG TỪ SUPABASE
   const [danhMucList, setDanhMucList] = useState<any[]>([]);
   const [hangSxList, setHangSxList] = useState<any[]>([]);
   
@@ -32,17 +32,15 @@ export default function EditProductPage() {
       if (!id) return;
 
       try {
-        // 🔴 BƯỚC A: HÚT DANH SÁCH "DANH MỤC" TỪ SUPABASE
-        // Lưu ý: Nếu bảng danh mục của sếp tên khác, sếp đổi chữ 'danh_muc' nhé
-        const { data: dmData } = await supabase.from('danh_muc').select('slug, ten');
+        // 🔴 LẤY DANH MỤC (Dùng select * để vét sạch, không sợ sai tên cột)
+        const { data: dmData } = await supabase.from('danh_muc').select('*');
         if (dmData) setDanhMucList(dmData);
 
-        // 🔴 BƯỚC B: HÚT DANH SÁCH "HÃNG" TỪ SUPABASE
-        // Lưu ý: Nếu bảng hãng của sếp tên khác (vd: thuong_hieu, hang...), sếp đổi chữ 'hang' nhé
-        const { data: hangData } = await supabase.from('hang').select('slug, ten');
+        // 🔴 LẤY HÃNG SẢN XUẤT (Lấy từ bảng 'hang' như ảnh sếp chụp)
+        const { data: hangData } = await supabase.from('hang').select('*');
         if (hangData) setHangSxList(hangData);
 
-        // 🔴 BƯỚC C: HÚT THÔNG TIN SẢN PHẨM NHƯ CŨ
+        // 🔴 LẤY THÔNG TIN SẢN PHẨM HIỆN TẠI
         const { data, error } = await supabase.from('san_pham').select('*').eq('id', id).single();
         
         if (data && !error) {
@@ -81,12 +79,13 @@ export default function EditProductPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // 2. LƯU LẠI 
+  // 2. LƯU LẠI VÀO SUPABASE
   const handleUpdate = async () => {
     if (!formData.ten) return alert("Sếp không được để trống Tên sản phẩm nha!");
     setLoading(true);
 
     try {
+      // Tự động tạo slug từ tên sản phẩm
       const slug = formData.ten.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
 
       const { error } = await supabase.from('san_pham').update({
@@ -203,24 +202,30 @@ export default function EditProductPage() {
             <h3 className="font-black text-white uppercase text-sm mb-6">Cài đặt xuất bản</h3>
             
             <div className="space-y-4 mb-8">
-              {/* 🟢 HIỂN THỊ DANH MỤC LẤY TỪ DATA */}
+              {/* 🟢 DANH MỤC */}
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase">Danh mục</label>
                 <select name="danh_muc" value={formData.danh_muc} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn danh mục --</option>
                   {danhMucList.map((dm) => (
-                    <option key={dm.slug} value={dm.slug}>{dm.ten}</option>
+                    // Tự động nhận diện ten_danh_muc hoặc ten
+                    <option key={dm.id || dm.slug} value={dm.slug}>
+                      {dm.ten_danh_muc || dm.ten || dm.slug}
+                    </option>
                   ))}
                 </select>
               </div>
 
-              {/* 🟢 HIỂN THỊ HÃNG LẤY TỪ DATA */}
+              {/* 🟢 HÃNG SẢN XUẤT */}
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase">Hãng sản xuất</label>
                 <select name="hang_sx" value={formData.hang_sx} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn hãng --</option>
                   {hangSxList.map((hang) => (
-                    <option key={hang.slug} value={hang.slug}>{hang.ten}</option>
+                    // Tự động nhận diện ten_hang theo đúng chuẩn bảng của sếp
+                    <option key={hang.id || hang.slug} value={hang.slug}>
+                      {hang.ten_hang || hang.ten || hang.slug}
+                    </option>
                   ))}
                 </select>
               </div>

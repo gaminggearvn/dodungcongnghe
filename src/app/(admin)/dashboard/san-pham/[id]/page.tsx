@@ -222,7 +222,6 @@ export default function EditProductPage() {
                 <select name="hang_sx" value={formData.hang_sx} onChange={handleChange} className="w-full p-3 mt-1 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-rose-500 focus:outline-none text-sm font-bold cursor-pointer">
                   <option value="">-- Chọn hãng --</option>
                   {hangSxList.map((hang) => (
-                    // Tự động nhận diện ten_hang theo đúng chuẩn bảng của sếp
                     <option key={hang.id || hang.slug} value={hang.slug}>
                       {hang.ten_hang || hang.ten || hang.slug}
                     </option>

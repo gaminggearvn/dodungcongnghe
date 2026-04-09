@@ -93,11 +93,12 @@ export default function Header() {
               </div>
               <div className="max-h-[350px] overflow-y-auto scrollbar-hide">
                 {results.map((product) => (
-                  <div
+                  // 🔴 ĐÃ ĐỔI THÀNH THẺ <Link> VÀ BẬT PREFETCH GIÚP CHUYỂN TRANG TRONG 0.1 GIÂY
+                  <Link
                     key={product.id}
+                    href={`/${product.category_slug || 'danh-muc'}/${product.brand_slug || 'thuong-hieu'}/${product.slug}`}
+                    prefetch={true}
                     onClick={() => {
-                      // 🔴 ĐÂY LÀ KHÚC FIX LỖI ĐỊA CHỈ TRANG CHI TIẾT
-                      router.push(`/${product.category_slug || 'danh-muc'}/${product.brand_slug || 'thuong-hieu'}/${product.slug}`);
                       setShowDropdown(false);
                       setQuery('');
                     }}
@@ -117,7 +118,7 @@ export default function Header() {
                     <div className="text-blue-500 opacity-0 group-hover:opacity-100 transition-all font-bold">
                         ➜
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
               <div className="p-4 bg-slate-50 border-t border-slate-100 text-center cursor-pointer hover:bg-slate-200 transition-colors">

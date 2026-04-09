@@ -25,12 +25,14 @@ export default function Header() {
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   
+  // 🔴 VŨ KHÍ MỚI: Biến lưu trạng thái xem khách đang bấm vào món nào để hiện Loading
+  const [loadingId, setLoadingId] = useState<number | null>(null); 
+  
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const loadProducts = async () => {
-      // 🔴 BỔ SUNG LẤY category_slug VÀ brand_slug TỪ DATABASE
       const { data } = await supabase.from('san_pham').select('id, ten, slug, hinh_anh, gia, category_slug, brand_slug');
       if (data) setAllProducts(data);
     };
@@ -93,17 +95,27 @@ export default function Header() {
               </div>
               <div className="max-h-[350px] overflow-y-auto scrollbar-hide">
                 {results.map((product) => (
-                  // 🔴 ĐÃ ĐỔI THÀNH THẺ <Link> VÀ BẬT PREFETCH GIÚP CHUYỂN TRANG TRONG 0.1 GIÂY
-                  <Link
+                  <div
                     key={product.id}
-                    href={`/${product.category_slug || 'danh-muc'}/${product.brand_slug || 'thuong-hieu'}/${product.slug}`}
-                    prefetch={true}
                     onClick={() => {
-                      setShowDropdown(false);
-                      setQuery('');
+                      // 🔴 BẬT HIỆU ỨNG LOADING LÊN NGAY TỨC KHẮC
+                      setLoadingId(product.id); 
+                      // Thực hiện chuyển trang
+                      router.push(`/${product.category_slug || 'danh-muc'}/${product.brand_slug || 'thuong-hieu'}/${product.slug}`);
                     }}
-                    className="flex items-center gap-4 p-4 hover:bg-blue-50 cursor-pointer transition-all border-b border-slate-50 last:border-0 group"
+                    // Thêm relative và overflow-hidden để nhốt cái hiệu ứng loading lại
+                    className="flex items-center gap-4 p-4 hover:bg-blue-50 cursor-pointer transition-all border-b border-slate-50 last:border-0 group relative overflow-hidden"
                   >
+                    
+                    {/* 🔴 LỚP PHỦ LOADING - CHỈ HIỆN KHI KHÁCH BẤM VÀO ĐÚNG MÓN NÀY */}
+                    {loadingId === product.id && (
+                      <div className="absolute inset-0 z-10 bg-white/90 backdrop-blur-sm flex items-center justify-center">
+                        <span className="font-black text-blue-600 text-[11px] uppercase tracking-widest animate-pulse flex items-center gap-2">
+                          <span className="animate-spin text-lg">⏳</span> ĐANG BAY TỚI...
+                        </span>
+                      </div>
+                    )}
+
                     <div className="w-12 h-12 rounded-xl overflow-hidden bg-white border border-slate-100 flex-shrink-0 p-1">
                       <img src={product.hinh_anh} alt={product.ten} className="w-full h-full object-contain group-hover:scale-110 transition-transform" />
                     </div>
@@ -118,7 +130,7 @@ export default function Header() {
                     <div className="text-blue-500 opacity-0 group-hover:opacity-100 transition-all font-bold">
                         ➜
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
               <div className="p-4 bg-slate-50 border-t border-slate-100 text-center cursor-pointer hover:bg-slate-200 transition-colors">

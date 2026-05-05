@@ -20,7 +20,7 @@ export default function ProductCard({ sanPham }: { sanPham: any }) {
 
   const fNum = (num: number) => num.toString().padStart(2, '0');
 
-  const giaHienTai = sanPham.gia || "Đang cập nhật";
+  const giaHienTai = sanPham.gia || "";
   const giaGoc = sanPham.gia ? (parseInt(sanPham.gia.replace(/\D/g, '')) * 1.3).toLocaleString() + 'đ' : '';
 
   const productUrl = `/${sanPham.category_slug}/${sanPham.brand_slug}/${sanPham.slug}`;
